@@ -5,12 +5,11 @@ const dotenv = require("dotenv");
 
 dotenv.config();
 
-// Inicializar Firebase
-const serviceAccount = require("./firebaseConfig.json");
+const serviceAccount = JSON.parse(process.env.FIREBASE_CONFIG);
+
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
 });
-
 const db = admin.firestore();
 
 const app = express();
