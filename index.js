@@ -7,18 +7,17 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Cargar credenciales desde el archivo JSON
-const serviceAccountPath = JSON.parse(process.env.FIREBASE_CREDENTIALS);
+const firebaseCredentials = JSON.parse(process.env.FIREBASE_CREDENTIALS);
 
+admin.initializeApp({
+  credential: admin.credential.cert(firebaseCredentials),
+  databaseURL: "https://ppg-iot-default-rtdb.firebaseio.com/",
+});
 
 if (!fs.existsSync(serviceAccountPath)) {
   console.error("❌ Archivo de credenciales no encontrado.");
   process.exit(1);
 }
-
-admin.initializeApp({
-  credential: admin.credential.cert(require(serviceAccountPath)),
-  databaseURL: "https://ppg-iot-default-rtdb.firebaseio.com/",
-});
 
 const db = admin.database();
 
