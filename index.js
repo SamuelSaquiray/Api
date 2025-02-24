@@ -1,17 +1,22 @@
 const express = require("express");
+const cors = require("cors"); // 🔹 Importar cors
 const admin = require("firebase-admin");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// 🔹 Verificar que la variable de entorno exista
+// 🔹 Habilitar CORS para permitir solicitudes desde Netlify
+app.use(cors({ origin: "https://ppheart.netlify.app" })); 
+
+// Alternativamente, permitir todas las solicitudes (para pruebas):
+// app.use(cors());
+
 if (!process.env.FIREBASE_CREDENTIALS) {
   console.error("❌ ERROR: La variable de entorno FIREBASE_CREDENTIALS no está definida.");
   process.exit(1);
 }
 
 let firebaseCredentials;
-
 try {
   firebaseCredentials = JSON.parse(process.env.FIREBASE_CREDENTIALS);
 } catch (error) {
