@@ -48,10 +48,12 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-const fetchLast200PPGData = async () => {
+const fetchLast200PPGData = async (userId) => {
+  
   try {
-    const snapshot = await admin.database().ref("anomalias").orderByKey().limitToLast(200).once("value");
+    const snapshot = await admin.database().ref(`users/${userId}/ppg_data_filtered`).orderByKey().limitToLast(200).once("value");
     const data = snapshot.val();
+    console.log(userId);
     return Object.values(data || {});
   } catch (error) {
     console.error("Error al obtener datos de PPG:", error);
@@ -62,12 +64,13 @@ const fetchLast200PPGData = async () => {
 // Función para generar el archivo Excel
 const generatePPGExcel = async (userId) => {
   const data = await fetchLast200PPGData(userId);
+  console.log(userId);
   const workbook = new ExcelJS.Workbook();
   const worksheet = workbook.addWorksheet("PPG Data");
 
   worksheet.columns = [
     { header: "Timestamp", key: "timestamp", width: 20 },
-    { header: "PPG Value", key: "ppgValue", width: 15 },
+    { header: "PPG Value", key: "ppg_filtered", width: 15 },
   ];
 
   data.forEach((item) => worksheet.addRow(item));
