@@ -10,7 +10,6 @@ const twilio = require('twilio');
 const nodemailer = require("nodemailer");
 const ExcelJS = require("exceljs");
 
-
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -28,7 +27,7 @@ const receiver_email = "samuel.saquiray@utec.edu.pe";
 
 
 app.use(express.json());
-app.use(cors());
+app.use(cors({ origin: "https://ppheart.netlify.app" }));
 
 // Cargar credenciales de Firebase
 const serviceAccount = JSON.parse(process.env.FIREBASE_CREDENTIALS);
