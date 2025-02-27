@@ -33,11 +33,6 @@ app.use(cors());
 // Cargar credenciales de Firebase
 const serviceAccount = JSON.parse(process.env.FIREBASE_CREDENTIALS);
 
-if (!fs.existsSync(serviceAccount)) {
-  console.error("❌ Archivo de credenciales no encontrado.");
-  process.exit(1);
-}
-
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   databaseURL: "https://ppg-iot-default-rtdb.firebaseio.com/",
