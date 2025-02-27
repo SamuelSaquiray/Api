@@ -31,7 +31,7 @@ app.use(express.json());
 app.use(cors());
 
 // Cargar credenciales de Firebase
-const serviceAccountPath = path.join(__dirname, "firebase-credentials.json");
+const serviceAccountPath = process.env.FIREBASE_CREDENTIALS;
 
 if (!fs.existsSync(serviceAccountPath)) {
   console.error("❌ Archivo de credenciales no encontrado.");
